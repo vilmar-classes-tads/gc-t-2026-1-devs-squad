@@ -1,54 +1,101 @@
-package com.projeto.repository;
+package com.projeto.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import com.projeto.model.Usuario;
+public class Usuario {
+    //CAMPOS OBRIGATORIOS
+    private String nomeCompleto;
+    private String cpf;
+    private String emailInstitucional;
+    private String senha;
+    private String campus;
+    private String areaFormacao;
+    private String titulacao;
 
-public class UsuarioRepository {
-    private static List<Usuario> bancoDeDados = new ArrayList<>();
-    
-    public void salvar(Usuario usuario) throws Exception {
-        if (buscarPorCpf(usuario.getCpf()).isPresent()) {
-            throw new Exception("Erro: CPF já está cadastrado.");
-        }
-        
-        if (buscarPorEmail(usuario.getEmailInstitucional()).isPresent()) {
-            throw new Exception("Erro: E-mail institucional já está cadastrado.");
-        }
+    //CAMPOS NÃO OBRIGATORIOS
+    private String nomeSocial;
+    private String linkLattes;
 
-        if (usuario.getSenha() == null || usuario.getSenha().length() < 6) {
-            throw new Exception("Erro: A senha deve ter no mínimo 6 caracteres.");
-        }
+    private java.util.List<String> perfis = new java.util.ArrayList<>();
 
-        String senhaCriptografada = "hash_simulado_" + usuario.getSenha();
-        usuario.setSenha(senhaCriptografada);
-
-        usuario.getPerfis().add("ROLE_COORDENADOR");
-        usuario.getPerfis().add("ROLE_AVALIADOR");
-
-        bancoDeDados.add(usuario);
+    public String getNomeCompleto() {
+        return nomeCompleto;
     }
 
-    public List<Usuario> Listartodos(){
-        return bancoDeDados;
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
     }
 
-    public Optional<Usuario> buscarPorCpf(String cpf) {
-        for (Usuario u : bancoDeDados) {
-            if (u.getCpf().equals(cpf)) {
-                return Optional.of(u);
-            }
-        }
-        return Optional.empty();
+    public String getCpf() {
+        return cpf;
     }
 
-    public Optional<Usuario> buscarPorEmail(String email) {
-        for (Usuario u : bancoDeDados) {
-            if (u.getEmailInstitucional().equals(email)) {
-                return Optional.of(u);
-            }
-        }
-        return Optional.empty();
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
+
+    public String getEmailInstitucional() {
+        return emailInstitucional;
+    }
+
+    public void setEmailInstitucional(String emailInstitucional) {
+        this.emailInstitucional = emailInstitucional;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getCampus() {
+        return campus;
+    }
+
+    public void setCampus(String campus) {
+        this.campus = campus;
+    }
+
+    public String getAreaFormacao() {
+        return areaFormacao;
+    }
+
+    public void setAreaFormacao(String areaFormacao) {
+        this.areaFormacao = areaFormacao;
+    }
+
+    public String getTitulacao() {
+        return titulacao;
+    }
+
+    public void setTitulacao(String titulacao) {
+        this.titulacao = titulacao;
+    }
+
+    public String getNomeSocial() {
+        return nomeSocial;
+    }
+
+    public void setNomeSocial(String nomeSocial) {
+        this.nomeSocial = nomeSocial;
+    }
+
+    public String getLinkLattes() {
+        return linkLattes;
+    }
+
+    public void setLinkLattes(String linkLattes) {
+        this.linkLattes = linkLattes;
+    }
+
+    public java.util.List<String> getPerfis() {
+        return perfis;
+    }
+
+    public void setPerfis(java.util.List<String> perfis) {
+        this.perfis = perfis;
+    }
+
+
+
 }
