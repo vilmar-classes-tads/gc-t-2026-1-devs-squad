@@ -19,7 +19,7 @@ public class UsuarioRepository {
 
         if (usuario.getSenha() == null || usuario.getSenha().length() < 6) {
             throw new Exception("Erro: A senha deve ter no mínimo 6 caracteres.");
-        
+        }
 
         String senhaCriptografada = "hash_simulado_" + usuario.getSenha();
         usuario.setSenha(senhaCriptografada);
