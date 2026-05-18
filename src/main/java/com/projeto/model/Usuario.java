@@ -96,6 +96,4 @@ public class Usuario {
         this.perfis = perfis;
     }
 
-
-
 }
