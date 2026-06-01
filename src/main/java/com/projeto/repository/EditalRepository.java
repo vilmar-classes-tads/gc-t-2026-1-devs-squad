@@ -33,4 +33,29 @@ public class EditalRepository {
         }
         return Optional.empty();
     }
+
+    public void editar(String numeroAtual, Edital editalAtualizado) throws Exception {
+        Optional<Edital> editalExistente = buscarPorNumero(numeroAtual);
+        
+        if (!editalExistente.isPresent()) {
+            throw new Exception("Erro: Edital com número " + numeroAtual + " não encontrado.");
+        }
+
+        editalService.validateSubmissao(editalAtualizado);
+
+        if (!numeroAtual.equals(editalAtualizado.getNumero())) {
+            if (buscarPorNumero(editalAtualizado.getNumero()).isPresent()) {
+                throw new Exception("Erro: Número de edital já está cadastrado.");
+            }
+        }
+
+        Edital edital = editalExistente.get();
+        edital.setTitulo(editalAtualizado.getTitulo());
+        edital.setNumero(editalAtualizado.getNumero());
+        edital.setAno(editalAtualizado.getAno());
+        edital.setDataInicioSubmissao(editalAtualizado.getDataInicioSubmissao());
+        edital.setDataFimSubmissao(editalAtualizado.getDataFimSubmissao());
+        edital.setDataInicioAvaliacao(editalAtualizado.getDataInicioAvaliacao());
+        edital.setDataFimAvaliacao(editalAtualizado.getDataFimAvaliacao());
+    }
 }
