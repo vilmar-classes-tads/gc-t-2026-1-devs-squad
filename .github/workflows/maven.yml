@@ -6,6 +6,9 @@ on:
       - main
       - develop
       - 'feature/**' # Captura qualquer push em branches como feature/issue0, feature/login, etc.
+      - 'bugfix/**'  # Captura qualquer push em branches como bugfix/issue0, bugfix/login, etc.
+      - 'hotfix/**'  # Captura qualquer push em branches como hotfix/issue0, hotfix/login, etc.
+      - 'release/**'  # Captura qualquer push em branches como release/issue0, release/login, etc.
   pull_request:
     branches:
       - main
