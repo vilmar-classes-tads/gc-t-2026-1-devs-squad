@@ -23,6 +23,23 @@ public class ProjetoRepository {
         bancoDeDadosProjetos.add(projeto);
     }
 
+    public void submeterProjeto(Projeto projeto) throws Exception {
+        projetoService.validarDadosBasicos(projeto);
+
+        if (!projeto.isAceitouTermoCompromisso()) {
+            throw new Exception("Erro: E obrigatorio aceitar o termo de compromisso para submeter o projeto.");
+        }
+
+        Optional<Projeto> projetoExistente = buscarPorTitulo(projeto.getTitulo());
+
+        if (projetoExistente.isPresent()) {
+            bancoDeDadosProjetos.remove(projetoExistente.get());
+        }
+
+        projeto.setStatus("SUBMETIDO");
+        bancoDeDadosProjetos.add(projeto);
+    }
+
     public List<Projeto> listarTodos() { 
         return bancoDeDadosProjetos; 
     }
