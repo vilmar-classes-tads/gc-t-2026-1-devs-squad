@@ -1,0 +1,10 @@
+Avaliação 1:
+
+1 - O número de issues e branches está muito diferente. Cada issue não deveria ser uma branch?
+2 - Está faltando finalizar a issue 2.
+3 - O Docker não subiu para a developer
+4 - A tag criada não está com o esperado para a entrega, é importante criar uma tag após finalizar a issue 2.
+5 - Atualizar a Main com a última versão após issue 2 fnializada.
+
+
+cada problema desse precisa ser corrigido via Issue.
