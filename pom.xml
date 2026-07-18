@@ -25,6 +25,7 @@
     </dependencies>
 
     <build>
+        <finalName>sistema-editais</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -33,6 +34,7 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <addClasspath>true</addClasspath>
                             <mainClass>com.projeto.Main</mainClass>
                         </manifest>
                     </archive>
