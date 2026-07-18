@@ -189,12 +189,18 @@ public class Main {
 
     private static String lerTexto(String mensagem) {
         System.out.print(mensagem);
+        if (!SCANNER.hasNextLine()) {
+            return "";
+        }
         return SCANNER.nextLine();
     }
 
     private static int lerInteiro(String mensagem) {
+        System.out.print(mensagem);
+        if (!SCANNER.hasNextLine()) {
+            return 0;
+        }
         try {
-            System.out.print(mensagem);
             return Integer.parseInt(SCANNER.nextLine());
         } catch (NumberFormatException e) {
             return -1;
@@ -202,6 +208,14 @@ public class Main {
     }
 
     private static LocalDate lerData(String mensagem) {
-        return LocalDate.parse(lerTexto(mensagem));
+        String texto = lerTexto(mensagem);
+        if (texto.isEmpty()) {
+            return LocalDate.now();
+        }
+        try {
+            return LocalDate.parse(texto);
+        } catch (Exception e) {
+            return LocalDate.now();
+        }
     }
 }
