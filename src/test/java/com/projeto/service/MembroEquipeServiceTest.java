@@ -23,7 +23,7 @@ class MembroEquipeServiceTest {
     }
 
     @Test
-    @DisplayName("CT-24: Adicionar Membro na Equipe com Sucesso")
+    @DisplayName("CT-30: Adicionar Membro na Equipe com Sucesso")
     void testAdicionarMembroSucesso() {
         String cpfMembro = "111.222.333-44";
         
@@ -35,7 +35,7 @@ class MembroEquipeServiceTest {
     }
 
     @Test
-    @DisplayName("CT-25: Tentativa de Adição de Membro com CPF Inválido (PE - Inválido)")
+    @DisplayName("CT-31: Tentativa de Adicionar Membro com CPF Inválido (PE - Inválido)")
     void testAdicionarMembroCpfInvalido() {
         String cpfInvalido = "123";
 
@@ -49,9 +49,9 @@ class MembroEquipeServiceTest {
     }
 
     @Test
-    @DisplayName("CT-26: Tentativa de Adição de Membro com Campo Obrigatório Faltando (PE - Inválido)")
+    @DisplayName("CT-32: Tentativa de Adicionar Membro com Campo Obrigatório Faltando (PE - Inválido)")
     void testAdicionarMembroCampoObrigatorioFaltando() {
-        String nomeMembro = ""; 
+        String nomeMembro = "";
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             if (nomeMembro == null || nomeMembro.trim().isEmpty()) {
@@ -63,7 +63,7 @@ class MembroEquipeServiceTest {
     }
 
     @Test
-    @DisplayName("CT-27: Remover Membro da Equipe com Sucesso")
+    @DisplayName("CT-33: Remover Membro da Equipe com Sucesso")
     void testRemoverMembroSucesso() {
         List<String> membros = new ArrayList<>();
         membros.add("João Silva");
@@ -76,7 +76,7 @@ class MembroEquipeServiceTest {
     }
 
     @Test
-    @DisplayName("CT-28: Adicionar Plano de Trabalho para Membro Bolsista com Sucesso")
+    @DisplayName("CT-34: Adicionar Plano de Trabalho para Membro Bolsista com Sucesso")
     void testAdicionarPlanoTrabalhoSucesso() {
         String plano = "plano_pesquisa_1.pdf";
         planosDeTrabalho.add(plano);
@@ -86,7 +86,7 @@ class MembroEquipeServiceTest {
     }
 
     @Test
-    @DisplayName("CT-29: Cadastro do 4º Plano de Trabalho no Projeto (AVL - Limite Válido)")
+    @DisplayName("CT-35: Cadastro do 4º Plano de Trabalho no Projeto (AVL - Limite Válido)")
     void testAdicionarQuartoPlanoTrabalhoLimiteValido() {
         planosDeTrabalho.add("plano1.pdf");
         planosDeTrabalho.add("plano2.pdf");
@@ -103,7 +103,7 @@ class MembroEquipeServiceTest {
     }
 
     @Test
-    @DisplayName("CT-30: Tentativa de Cadastro do 5º Plano de Trabalho (AVL - Limite Inválido)")
+    @DisplayName("CT-36: Tentativa de Cadastro do 5º Plano de Trabalho no Projeto (AVL - Limite Inválido)")
     void testAdicionarQuintoPlanoTrabalhoDeveLancarExcecao() {
         planosDeTrabalho.add("plano1.pdf");
         planosDeTrabalho.add("plano2.pdf");
