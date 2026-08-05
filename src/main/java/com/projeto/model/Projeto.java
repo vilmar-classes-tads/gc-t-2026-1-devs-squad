@@ -20,6 +20,12 @@ public class Projeto {
     private String cpfCoordenador; 
     private String numeroEdital;
 
+    // --- NOVOS ATRIBUTOS DA EQUIPE E PLANOS (ISSUE 3) ---
+    private List<Membro> membros = new ArrayList<>();
+    private List<PlanoTrabalho> planosDeTrabalho = new ArrayList<>();
+
+    // --- GETTERS E SETTERS ORIGINAIS ---
+    
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
 
@@ -52,4 +58,43 @@ public class Projeto {
 
     public String getNumeroEdital() { return numeroEdital; }
     public void setNumeroEdital(String numeroEdital) { this.numeroEdital = numeroEdital; }
+
+    // --- MÉTODOS DE GERENCIAMENTO DE EQUIPE E PLANOS (ISSUE 3) ---
+
+    public List<Membro> getMembros() { 
+        return membros; 
+    }
+
+    public void setMembros(List<Membro> membros) { 
+        this.membros = membros; 
+    }
+
+    public void adicionarMembro(Membro membro) {
+        this.membros.add(membro);
+    }
+    
+    public void removerMembro(Membro membro) {
+        this.membros.remove(membro);
+    }
+
+    public List<PlanoTrabalho> getPlanosDeTrabalho() { 
+        return planosDeTrabalho; 
+    }
+
+    public void setPlanosDeTrabalho(List<PlanoTrabalho> planosDeTrabalho) { 
+        this.planosDeTrabalho = planosDeTrabalho; 
+    }
+
+    /**
+     * Adiciona um plano de trabalho ao projeto.
+     * Implementa a validação da Issue 3 (Máximo de 4 planos).
+     * @param plano O plano de trabalho a ser adicionado.
+     * @throws IllegalStateException caso o limite de 4 planos já tenha sido atingido.
+     */
+    public void adicionarPlanoTrabalho(PlanoTrabalho plano) {
+        if (this.planosDeTrabalho.size() >= 4) {
+            throw new IllegalStateException("Erro: O projeto não pode ter mais que 4 planos de trabalho.");
+        }
+        this.planosDeTrabalho.add(plano);
+    }
 }
