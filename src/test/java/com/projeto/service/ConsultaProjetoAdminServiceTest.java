@@ -92,15 +92,64 @@ class ConsultaProjetoAdminServiceTest {
     @DisplayName("CT-41: Download de Arquivos de Projeto por Usuário Não-Dono (PE - Válido)")
     void testDownloadArquivoPorUsuarioNaoDono() {
         Usuario gestor = new Usuario();
+        gestor.setCampus("Recife");
         gestor.adicionarPerfil(PerfilUsuario.GESTOR);
-        boolean projetoPublicadoOuSubmetido = true;
 
-        assertDoesNotThrow(() -> {
-            if (!projetoPublicadoOuSubmetido) {
-                throw new SecurityException("Erro: Arquivo indisponível para download.");
-            }
-        });
+        Projeto projeto = todosProjetos.get(0); // Projeto de Recife em status SUBMETIDO
 
-        assertTrue(projetoPublicadoOuSubmetido);
+        boolean resultado = assertDoesNotThrow(() -> 
+            service.baixarArquivoProjeto(gestor, projeto, "plano_trabalho.pdf")
+        );
+
+        assertTrue(resultado);
+    }
+
+    @Test
+    @DisplayName("CT-41.1: Tentativa de Download de Arquivo em Projeto com Status Rascunho (PE - Inválido)")
+    void testDownloadArquivoProjetoEmRascunhoDeveFalhar() {
+        Usuario gestor = new Usuario();
+        gestor.setCampus("Recife");
+        gestor.adicionarPerfil(PerfilUsuario.GESTOR);
+
+        Projeto projetoRascunho = new Projeto();
+        projetoRascunho.setCampus("Recife");
+        projetoRascunho.setStatus("RASCUNHO");
+
+        SecurityException exception = assertThrows(SecurityException.class, () ->
+            service.baixarArquivoProjeto(gestor, projetoRascunho, "anexo.pdf")
+        );
+
+        assertEquals("Erro: Arquivo indisponível para download.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("CT-41.2: Download de Arquivo por Admin Geral em Qualquer Campus (PE - Válido)")
+    void testDownloadArquivoPorAdminGeralQualquerCampus() {
+        Usuario admin = new Usuario();
+        admin.adicionarPerfil(PerfilUsuario.ADMIN_GERAL);
+
+        Projeto projetoCaruaru = todosProjetos.get(1); // Projeto de Caruaru
+
+        boolean resultado = assertDoesNotThrow(() ->
+            service.baixarArquivoProjeto(admin, projetoCaruaru, "anexo.pdf")
+        );
+
+        assertTrue(resultado);
+    }
+
+    @Test
+    @DisplayName("CT-41.3: Tentativa de Download de Projeto de Outro Campus por Gestor (PE - Inválido)")
+    void testDownloadProjetoOutroCampusPorGestorDeveFalhar() {
+        Usuario gestor = new Usuario();
+        gestor.setCampus("Recife");
+        gestor.adicionarPerfil(PerfilUsuario.GESTOR);
+
+        Projeto projetoOutroCampus = todosProjetos.get(1); // Projeto de Caruaru
+
+        SecurityException exception = assertThrows(SecurityException.class, () ->
+            service.baixarArquivoProjeto(gestor, projetoOutroCampus, "plano.pdf")
+        );
+
+        assertEquals("Erro: Acesso negado a projetos de outros campi.", exception.getMessage());
     }
 }
