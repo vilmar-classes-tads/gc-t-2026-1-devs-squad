@@ -1,6 +1,8 @@
 package com.projeto.service;
 
+import com.projeto.model.PerfilUsuario;
 import com.projeto.model.Projeto;
+import com.projeto.model.Usuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ConsultaProjetoAdminServiceTest {
 
+    private ConsultaProjetoAdminService service;
     private List<Projeto> todosProjetos;
 
     @BeforeEach
     void setUp() {
+        service = new ConsultaProjetoAdminService();
         todosProjetos = new ArrayList<>();
 
         Projeto p1 = new Projeto();
@@ -35,24 +39,21 @@ class ConsultaProjetoAdminServiceTest {
     @Test
     @DisplayName("CT-37: Visualizar Todos os Projetos como Admin Geral (PE - Válido)")
     void testAdminGeralVisualizaTodosProjetos() {
-        String perfilUsuario = "ADMIN_GERAL";
+        Usuario admin = new Usuario();
+        admin.adicionarPerfil(PerfilUsuario.ADMIN_GERAL);
 
-        List<Projeto> visiveis = new ArrayList<>();
-        if ("ADMIN_GERAL".equals(perfilUsuario)) {
-            visiveis.addAll(todosProjetos);
-        }
+        List<Projeto> resultado = service.consultarProjetos(admin, todosProjetos, null, null);
 
-        assertEquals(2, visiveis.size());
+        assertEquals(2, resultado.size());
     }
 
     @Test
     @DisplayName("CT-38: Filtrar Projetos por Campus como Admin Geral (PE - Válido)")
     void testAdminGeralFiltrarPorCampus() {
-        String campusFiltro = "Recife";
+        Usuario admin = new Usuario();
+        admin.adicionarPerfil(PerfilUsuario.ADMIN_GERAL);
 
-        List<Projeto> filtrados = todosProjetos.stream()
-                .filter(p -> p.getCampus().equalsIgnoreCase(campusFiltro))
-                .toList();
+        List<Projeto> filtrados = service.consultarProjetos(admin, todosProjetos, "Recife", null);
 
         assertEquals(1, filtrados.size());
         assertEquals("Recife", filtrados.get(0).getCampus());
@@ -61,11 +62,11 @@ class ConsultaProjetoAdminServiceTest {
     @Test
     @DisplayName("CT-39: Visualizar Projetos Restritos ao Próprio Campus como Gestor (PE - Válido)")
     void testGestorVisualizaApenasProprioCampus() {
-        String campusGestor = "Recife";
+        Usuario gestor = new Usuario();
+        gestor.setCampus("Recife");
+        gestor.adicionarPerfil(PerfilUsuario.GESTOR);
 
-        List<Projeto> visiveisGestor = todosProjetos.stream()
-                .filter(p -> p.getCampus().equals(campusGestor))
-                .toList();
+        List<Projeto> visiveisGestor = service.consultarProjetos(gestor, todosProjetos, null, null);
 
         assertEquals(1, visiveisGestor.size());
         assertEquals("Projeto Recife 1", visiveisGestor.get(0).getTitulo());
@@ -74,13 +75,14 @@ class ConsultaProjetoAdminServiceTest {
     @Test
     @DisplayName("CT-40: Tentativa de Acesso a Projeto de Outro Campus via URL Direta por Diretor (PE - Inválido)")
     void testDiretorAcessarProjetoOutroCampusDeveNegarAcesso() {
-        String campusDiretor = "Recife";
-        Projeto projetoOutroCampus = todosProjetos.get(1); 
+        Usuario diretor = new Usuario();
+        diretor.setCampus("Recife");
+        diretor.adicionarPerfil(PerfilUsuario.DIRETOR);
+
+        Projeto projetoOutroCampus = todosProjetos.get(1); // Projeto de Caruaru
 
         Exception exception = assertThrows(SecurityException.class, () -> {
-            if (!projetoOutroCampus.getCampus().equals(campusDiretor)) {
-                throw new SecurityException("Erro: Acesso negado a projetos de outros campi.");
-            }
+            service.validarAcessoDiretoProjeto(diretor, projetoOutroCampus);
         });
 
         assertEquals("Erro: Acesso negado a projetos de outros campi.", exception.getMessage());
@@ -89,7 +91,8 @@ class ConsultaProjetoAdminServiceTest {
     @Test
     @DisplayName("CT-41: Download de Arquivos de Projeto por Usuário Não-Dono (PE - Válido)")
     void testDownloadArquivoPorUsuarioNaoDono() {
-        String perfilUsuario = "GESTOR";
+        Usuario gestor = new Usuario();
+        gestor.adicionarPerfil(PerfilUsuario.GESTOR);
         boolean projetoPublicadoOuSubmetido = true;
 
         assertDoesNotThrow(() -> {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import com.projeto.model.Usuario;
+import com.projeto.model.PerfilUsuario; // <-- IMPORT NECESSÁRIO
 
 public class UsuarioRepository {
     private static List<Usuario> bancoDeDados = new ArrayList<>();
@@ -24,8 +25,9 @@ public class UsuarioRepository {
         String senhaCriptografada = "hash_simulado_" + usuario.getSenha();
         usuario.setSenha(senhaCriptografada);
 
-        usuario.getPerfis().add("ROLE_COORDENADOR");
-        usuario.getPerfis().add("ROLE_AVALIADOR");
+        // Utilizamos o método novo e o Enum tipado ao invés de String
+        usuario.adicionarPerfil(PerfilUsuario.COORDENADOR);
+        usuario.adicionarPerfil(PerfilUsuario.AVALIADOR);
 
         bancoDeDados.add(usuario);
     }
