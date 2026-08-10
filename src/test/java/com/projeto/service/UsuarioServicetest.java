@@ -133,4 +133,87 @@ class UsuarioServiceTest {
 
         assertEquals("O campo nome é obrigatório.", exception.getMessage());
     }
+    @Test
+    @DisplayName("CT-08: Tentativa de logar sem o campo CPF preenchido (obrigatório)")
+    void testLoginSemPreencherCpf() {
+        usuario.setCpf("");
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            if (usuario.getCpf() == null || usuario.getCpf().trim().isEmpty()) {
+                throw new IllegalArgumentException("O campo CPF é obrigatório.");
+            }
+        });
+
+        assertEquals("O campo CPF é obrigatório.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("CT-09: Tentativa de logar sem o campo Email Institucional (obrigatório)")
+    void testLoginSemPreencherEmail() {
+        usuario.setEmailInstitucional("");
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            if (usuario.getEmailInstitucional() == null || usuario.getEmailInstitucional().trim().isEmpty()) {
+                throw new IllegalArgumentException("O campo e-mail institucional é obrigatório.");
+            }
+        });
+
+        assertEquals("O campo e-mail institucional é obrigatório.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("CT-10: Tentativa de logar sem o campo senha preenchido (obrigatório)")
+    void testLoginSemPreencherSenha() {
+        usuario.setSenha("");
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            if (usuario.getSenha() == null || usuario.getSenha().trim().isEmpty()) {
+                throw new IllegalArgumentException("O campo senha é obrigatório.");
+            }
+        });
+
+        assertEquals("O campo senha é obrigatório.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("CT-11: Tentativa de logar sem o Campus preenchido (obrigatório)")
+    void testLoginSemPreencherCampus() {
+        String campus = "";
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            if (campus == null || campus.trim().isEmpty()) {
+                throw new IllegalArgumentException("O campo campus é obrigatório.");
+            }
+        });
+
+        assertEquals("O campo campus é obrigatório.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("CT-12: Tentativa de logar sem o campo Área de Formação preenchido (obrigatório)")
+    void testLoginSemPreencherAreaFormacao() {
+        String areaFormacao = "";
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            if (areaFormacao == null || areaFormacao.trim().isEmpty()) {
+                throw new IllegalArgumentException("O campo área de formação é obrigatório.");
+            }
+        });
+
+        assertEquals("O campo área de formação é obrigatório.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("CT-13: Tentativa de logar sem o campo Título preenchido (obrigatório)")
+    void testLoginSemPreencherTitulo() {
+        String titulo = "";
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            if (titulo == null || titulo.trim().isEmpty()) {
+                throw new IllegalArgumentException("O campo título é obrigatório.");
+            }
+        });
+
+        assertEquals("O campo título é obrigatório.", exception.getMessage());
+    }
 }

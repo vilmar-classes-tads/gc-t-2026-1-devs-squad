@@ -33,7 +33,7 @@ class ConsultaProjetoAdminServiceTest {
     }
 
     @Test
-    @DisplayName("CT-31: Visualizar Todos os Projetos como Admin Geral (PE - Válido)")
+    @DisplayName("CT-37: Visualizar Todos os Projetos como Admin Geral (PE - Válido)")
     void testAdminGeralVisualizaTodosProjetos() {
         String perfilUsuario = "ADMIN_GERAL";
 
@@ -46,7 +46,7 @@ class ConsultaProjetoAdminServiceTest {
     }
 
     @Test
-    @DisplayName("CT-32: Filtrar Projetos por Campus como Admin Geral (PE - Válido)")
+    @DisplayName("CT-38: Filtrar Projetos por Campus como Admin Geral (PE - Válido)")
     void testAdminGeralFiltrarPorCampus() {
         String campusFiltro = "Recife";
 
@@ -59,7 +59,7 @@ class ConsultaProjetoAdminServiceTest {
     }
 
     @Test
-    @DisplayName("CT-33: Visualizar Projetos Restritos ao Próprio Campus como Gestor (PE - Válido)")
+    @DisplayName("CT-39: Visualizar Projetos Restritos ao Próprio Campus como Gestor (PE - Válido)")
     void testGestorVisualizaApenasProprioCampus() {
         String campusGestor = "Recife";
 
@@ -72,7 +72,7 @@ class ConsultaProjetoAdminServiceTest {
     }
 
     @Test
-    @DisplayName("CT-34: Tentativa de Acesso a Projeto de Outro Campus via URL Direta por Diretor (PE - Inválido)")
+    @DisplayName("CT-40: Tentativa de Acesso a Projeto de Outro Campus via URL Direta por Diretor (PE - Inválido)")
     void testDiretorAcessarProjetoOutroCampusDeveNegarAcesso() {
         String campusDiretor = "Recife";
         Projeto projetoOutroCampus = todosProjetos.get(1); 
@@ -85,8 +85,9 @@ class ConsultaProjetoAdminServiceTest {
 
         assertEquals("Erro: Acesso negado a projetos de outros campi.", exception.getMessage());
     }
+
     @Test
-    @DisplayName("CT-35: Download de Arquivos de Projeto por Usuário Não-Dono (PE - Válido)")
+    @DisplayName("CT-41: Download de Arquivos de Projeto por Usuário Não-Dono (PE - Válido)")
     void testDownloadArquivoPorUsuarioNaoDono() {
         String perfilUsuario = "GESTOR";
         boolean projetoPublicadoOuSubmetido = true;
@@ -100,4 +101,3 @@ class ConsultaProjetoAdminServiceTest {
         assertTrue(projetoPublicadoOuSubmetido);
     }
 }
-

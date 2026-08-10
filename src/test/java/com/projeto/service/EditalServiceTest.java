@@ -30,7 +30,7 @@ class EditalServiceTest {
     }
 
     @Test
-    @DisplayName("CT-08: Cadastro de Usuário com Senha de 7 Caracteres (AVL - Limite Válido)")
+    @DisplayName("CT-14: Cadastro de Usuário com Senha de 7 Caracteres (AVL - Limite Válido)")
     void testSenhaSeteCaracteres() {
         String senhaSete = "1234567";
         
@@ -43,7 +43,7 @@ class EditalServiceTest {
     }
 
     @Test
-    @DisplayName("CT-09: Cadastro de Edital com Sucesso (Dados válidos)")
+    @DisplayName("CT-15: Cadastro de Edital com Sucesso (Datas válidas)")
     void testCadastroEditalSucesso() {
         edital.setNumero("02/2026");
         edital.setTitulo("Edital de Extensão");
@@ -55,7 +55,7 @@ class EditalServiceTest {
     }
 
     @Test
-    @DisplayName("CT-10: Tentativa de Cadastro com Número de Edital Duplicado")
+    @DisplayName("CT-16: Tentativa de Cadastro com Número de Edital Duplicado")
     void testCadastroNumeroEditalDuplicado() {
         edital.setNumero("01/2026"); 
 
@@ -72,7 +72,7 @@ class EditalServiceTest {
     }
 
     @Test
-    @DisplayName("CT-11: Tentativa de Cadastro com Data Fim Igual à Data de Início (AVL - Limite Inválido)")
+    @DisplayName("CT-17: Tentativa de Cadastro com Data Fim de Submissão Igual à Data de Início (AVL - Limite Inválido)")
     void testDataFimIgualDataInicioDeveLancarExcecao() {
         LocalDate dataInicio = LocalDate.of(2026, 8, 10);
         LocalDate dataFimIgual = LocalDate.of(2026, 8, 10);
@@ -87,10 +87,10 @@ class EditalServiceTest {
     }
 
     @Test
-    @DisplayName("CT-12: Tentativa de Cadastro com Data Fim Anterior à Data de Início (PE - Inválido)")
+    @DisplayName("CT-18: Tentativa de Cadastro com Data Fim de Submissão Anterior à Data de Início (PE - Inválido)")
     void testDataFimAnteriorDataInicioDeveLancarExcecao() {
         LocalDate dataInicio = LocalDate.of(2026, 8, 10);
-        LocalDate dataFimAnterior = LocalDate.of(2026, 8, 05);
+        LocalDate dataFimAnterior = LocalDate.of(2026, 8, 5);
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             if (!dataFimAnterior.isAfter(dataInicio)) {
@@ -102,7 +102,7 @@ class EditalServiceTest {
     }
 
     @Test
-    @DisplayName("CT-13: Cadastro de Edital com Data Fim 1 Dia Após o Início (AVL - Limite Válido)")
+    @DisplayName("CT-19: Cadastro de Edital com Data Fim de Submissão 1 Dia Após o Início (AVL - Limite Válido)")
     void testDataFimUmDiaAposInicioSucesso() {
         LocalDate dataInicio = LocalDate.of(2026, 8, 10);
         LocalDate dataFimUmDiaDepois = LocalDate.of(2026, 8, 11);
@@ -119,7 +119,7 @@ class EditalServiceTest {
     }
 
     @Test
-    @DisplayName("CT-14: Edição de Edital com Sucesso")
+    @DisplayName("CT-20: Edição de Edital com Sucesso")
     void testEdicaoEditalSucesso() {
         edital.setNumero("01/2026");
         edital.setTitulo("Título Antigo");

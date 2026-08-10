@@ -43,7 +43,7 @@ class ProjetoServiceTest {
     }
 
     @Test
-    @DisplayName("CT-15: Tentativa de Edição com Número de Edital Duplicado")
+    @DisplayName("CT-21: Tentativa de Edição com Número de Edital Duplicado")
     void testEdicaoComNumeroEditalDuplicado() {
         projeto.setNumeroEdital("01/2026"); 
 
@@ -59,7 +59,7 @@ class ProjetoServiceTest {
     }
 
     @Test
-    @DisplayName("CT-16: Salvar Rascunho de Projeto com Sucesso")
+    @DisplayName("CT-22: Salvar Rascunho de Projeto com Sucesso")
     void testSalvarRascunhoComSucesso() {
         projeto.setTitulo("Sistema de Gestão");
         projeto.setStatus("RASCUNHO");
@@ -69,7 +69,7 @@ class ProjetoServiceTest {
     }
 
     @Test
-    @DisplayName("CT-17: Submeter Projeto com Sucesso")
+    @DisplayName("CT-23: Submeter Projeto com Sucesso")
     void testSubmeterProjetoComSucesso() {
         projeto.setTitulo("Sistema de Gestão");
         projeto.setAceitouTermoCompromisso(true);
@@ -89,7 +89,7 @@ class ProjetoServiceTest {
     }
 
     @Test
-    @DisplayName("CT-18: Tentativa de Submissão sem Aceitar o Termo de Compromisso")
+    @DisplayName("CT-24: Tentativa de Submissão sem Aceitar o Termo de Compromisso")
     void testSubmissaoSemTermoDeCompromisso() {
         projeto.setAceitouTermoCompromisso(false);
 
@@ -103,7 +103,7 @@ class ProjetoServiceTest {
     }
 
     @Test
-    @DisplayName("CT-19: Tentativa de Submissão sem Selecionar Nenhuma ODS (PE - Inválido)")
+    @DisplayName("CT-25: Tentativa de Submissão sem Selecionar Nenhuma ODS (PE - Inválido)")
     void testSubmissaoSemODS() {
         projeto.setAceitouTermoCompromisso(true);
 
@@ -117,7 +117,7 @@ class ProjetoServiceTest {
     }
 
     @Test
-    @DisplayName("CT-20: Submissão de Projeto com Exatamente 1 ODS Selecionada (AVL - Limite Válido)")
+    @DisplayName("CT-26: Submissão de Projeto com Exatamente 1 ODS Selecionada (AVL - Limite Válido)")
     void testSubmissaoComUmaODS() {
         projeto.setAceitouTermoCompromisso(true);
         projeto.getOdsSelecionadas().add("ODS 9 - Indústria, Inovação e Infraestrutura");
@@ -134,7 +134,7 @@ class ProjetoServiceTest {
     }
 
     @Test
-    @DisplayName("CT-21: Edição de Projeto em Status RASCUNHO com Sucesso (PE - Válido)")
+    @DisplayName("CT-27: Edição de Projeto em Status RASCUNHO com Sucesso (PE - Válido)")
     void testEditarProjetoEmRascunho() {
         preencherDadosBasicosObrigatorios(projeto);
         projeto.setStatus("RASCUNHO");
@@ -145,7 +145,7 @@ class ProjetoServiceTest {
     }
 
     @Test
-    @DisplayName("CT-22: Tentativa de Edição de Projeto em Status SUBMETIDO (PE - Inválido)")
+    @DisplayName("CT-28: Tentativa de Edição de Projeto em Status SUBMETIDO (PE - Inválido)")
     void testEditarProjetoSubmetidoDeveLancarExcecao() {
         projeto.setStatus("SUBMETIDO");
 
@@ -155,7 +155,7 @@ class ProjetoServiceTest {
     }
 
     @Test
-    @DisplayName("CT-23: Edição de Projeto em Status EM_CORRECAO com Sucesso (PE - Válido)")
+    @DisplayName("CT-29: Edição de Projeto em Status EM_CORRECAO com Sucesso (PE - Válido)")
     void testEditarProjetoEmCorrecao() {
         preencherDadosBasicosObrigatorios(projeto);
         projeto.setStatus("EM_CORRECAO");
