@@ -1,3 +1,16 @@
 com\projeto\repository\UsuarioRepository.class
-com\projeto\model\Usuario.class
+com\projeto\service\EditalService.class
 com\projeto\service\teste.class
+com\projeto\repository\ProjetoRepository.class
+com\projeto\service\ConsultaProjetoAdminService.class
+com\projeto\model\PlanoTrabalho.class
+com\projeto\utils\DateValidator.class
+com\projeto\repository\EditalRepository.class
+com\projeto\Main.class
+com\projeto\model\Membro.class
+com\projeto\service\ProjetoService.class
+com\projeto\model\PerfilUsuario.class
+com\projeto\model\TipoMembro.class
+com\projeto\model\Edital.class
+com\projeto\model\Projeto.class
+com\projeto\model\Usuario.class

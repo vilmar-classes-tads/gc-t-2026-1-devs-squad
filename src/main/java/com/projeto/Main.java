@@ -10,12 +10,15 @@ import com.projeto.repository.EditalRepository;
 import com.projeto.repository.ProjetoRepository;
 import com.projeto.repository.UsuarioRepository;
 
+import com.projeto.service.ConsultaProjetoAdminService;
+
 public class Main {
 
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final UsuarioRepository USUARIO_REPOSITORY = new UsuarioRepository();
     private static final EditalRepository EDITAL_REPOSITORY = new EditalRepository();
     private static final ProjetoRepository PROJETO_REPOSITORY = new ProjetoRepository();
+    private static final ConsultaProjetoAdminService CONSULTA_ADMIN_SERVICE = new ConsultaProjetoAdminService();
 
     public static void main(String[] args) {
         int opcao;
@@ -43,6 +46,9 @@ public class Main {
                 case 6:
                     listarProjetos();
                     break;
+                case 7:
+                    baixarArquivoProjetoMenu();
+                    break;
                 case 0:
                     System.out.println("Encerrando sistema.");
                     break;
@@ -63,6 +69,7 @@ public class Main {
         System.out.println("4 - Listar editais");
         System.out.println("5 - Submeter projeto");
         System.out.println("6 - Listar projetos");
+        System.out.println("7 - Baixar arquivo de projeto (Anexos e Planos)");
         System.out.println("0 - Sair");
     }
 
@@ -79,9 +86,21 @@ public class Main {
             usuario.setNomeSocial(lerTexto("Nome social: "));
             usuario.setLinkLattes(lerTexto("Link Lattes: "));
 
+            System.out.println("Selecione o perfil de acesso:");
+            System.out.println("1 - GESTOR | 2 - ADMIN_GERAL | 3 - DIRETOR | 4 - COORDENADOR | 5 - AVALIADOR");
+            int perfilOpcao = lerInteiro("Perfil (1-5): ");
+            switch (perfilOpcao) {
+                case 1 -> usuario.adicionarPerfil(com.projeto.model.PerfilUsuario.GESTOR);
+                case 2 -> usuario.adicionarPerfil(com.projeto.model.PerfilUsuario.ADMIN_GERAL);
+                case 3 -> usuario.adicionarPerfil(com.projeto.model.PerfilUsuario.DIRETOR);
+                case 4 -> usuario.adicionarPerfil(com.projeto.model.PerfilUsuario.COORDENADOR);
+                case 5 -> usuario.adicionarPerfil(com.projeto.model.PerfilUsuario.AVALIADOR);
+                default -> usuario.adicionarPerfil(com.projeto.model.PerfilUsuario.GESTOR);
+            }
+
             USUARIO_REPOSITORY.salvar(usuario);
 
-            System.out.println("Usuario cadastrado com sucesso.");
+            System.out.println("Usuario cadastrado com sucesso com perfil: " + usuario.getPerfis());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -216,6 +235,42 @@ public class Main {
             return LocalDate.parse(texto);
         } catch (Exception e) {
             return LocalDate.now();
+        }
+    }
+
+    private static void baixarArquivoProjetoMenu() {
+        try {
+            System.out.println("\n--- Download de Arquivo de Projeto ---");
+            String cpfUsuario = lerTexto("CPF do usuario solicitante: ");
+            Usuario usuario = USUARIO_REPOSITORY.Listartodos().stream()
+                    .filter(u -> u.getCpf() != null && u.getCpf().equalsIgnoreCase(cpfUsuario))
+                    .findFirst()
+                    .orElse(null);
+
+            if (usuario == null) {
+                System.out.println("Erro: Usuario nao encontrado para o CPF informado.");
+                return;
+            }
+
+            String tituloProjeto = lerTexto("Titulo do projeto: ");
+            Projeto projeto = PROJETO_REPOSITORY.listarTodos().stream()
+                    .filter(p -> p.getTitulo() != null && p.getTitulo().equalsIgnoreCase(tituloProjeto))
+                    .findFirst()
+                    .orElse(null);
+
+            if (projeto == null) {
+                System.out.println("Erro: Projeto nao encontrado para o titulo informado.");
+                return;
+            }
+
+            String nomeArquivo = lerTexto("Nome do arquivo para download (ex: plano_trabalho.pdf): ");
+
+            boolean downloadAutorizado = CONSULTA_ADMIN_SERVICE.baixarArquivoProjeto(usuario, projeto, nomeArquivo);
+            if (downloadAutorizado) {
+                System.out.println("SUCESSO: Download do arquivo '" + nomeArquivo + "' realizado com sucesso!");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }
