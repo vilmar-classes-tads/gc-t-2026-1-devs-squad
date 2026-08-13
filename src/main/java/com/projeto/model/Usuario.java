@@ -1,7 +1,10 @@
 package com.projeto.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Usuario {
-    //CAMPOS OBRIGATORIOS
+    // CAMPOS OBRIGATORIOS
     private String nomeCompleto;
     private String cpf;
     private String emailInstitucional;
@@ -10,11 +13,12 @@ public class Usuario {
     private String areaFormacao;
     private String titulacao;
 
-    //CAMPOS NÃO OBRIGATORIOS
+    // CAMPOS NÃO OBRIGATORIOS
     private String nomeSocial;
     private String linkLattes;
 
-    private java.util.List<String> perfis = new java.util.ArrayList<>();
+    // PERFIl DE ACESSO (ISSUE 46)
+    private List<PerfilUsuario> perfis = new ArrayList<>();
 
     public String getNomeCompleto() {
         return nomeCompleto;
@@ -88,12 +92,17 @@ public class Usuario {
         this.linkLattes = linkLattes;
     }
 
-    public java.util.List<String> getPerfis() {
+    public List<PerfilUsuario> getPerfis() {
         return perfis;
     }
 
-    public void setPerfis(java.util.List<String> perfis) {
+    public void setPerfis(List<PerfilUsuario> perfis) {
         this.perfis = perfis;
     }
 
+    public void adicionarPerfil(PerfilUsuario perfil) {
+        if (perfil != null && !this.perfis.contains(perfil)) {
+            this.perfis.add(perfil);
+        }
+    }
 }
